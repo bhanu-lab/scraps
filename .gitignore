@@ -136,6 +136,14 @@ ENV/
 env.bak/
 venv.bak/
 
+# Kaveri scraper specific
+kaveri/venv/
+kaveri/path/
+kaveri/backups/
+kaveri/__pycache__/
+kaveri/scraper.log
+kaveri/automation.log
+
 # Spyder project settings
 .spyderproject
 .spyproject
