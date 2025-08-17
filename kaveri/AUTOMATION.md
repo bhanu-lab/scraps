@@ -14,25 +14,25 @@ This automation system keeps the Karnataka administrative hierarchy data (Distri
 2. **The workflow runs automatically:**
    - Weekly full scrape on Sundays at 3 AM UTC
    - Manual trigger available in Actions tab
+   - Creates Pull Requests for data changes
 
 
 ## 🔧 Configuration
 
-Edit `config.json` to customize:
+Edit `config.json` to customize scraper behavior:
 
 ```json
 {
   "scraper_config": {
     "rate_limit_delay": 1,
     "max_retries": 3,
-    "backup_retention_days": 30
-  },
-  "schedule": {
-    "daily_check": "02:00",
-    "weekly_full_scrape": "Sunday 03:00"
+    "backup_retention_days": 30,
+    "log_level": "INFO"
   }
 }
 ```
+
+**Note**: Scheduling is handled by GitHub Actions workflow, not config file.
 
 ## 🔐 Authentication
 
@@ -65,7 +65,7 @@ The scraper requires authentication headers from a logged-in browser session:
 
 - **Workflow runs**: Check the Actions tab
 - **Failed runs**: Issues are automatically created
-- **Data releases**: Weekly releases with updated data
+- **Data changes**: Pull Requests created for review
 
 ## 🛠 Manual Operations
 
