@@ -1,16 +1,36 @@
-# the data
-[remap.json](remap.json) contains a reverse mapping of Village names to their corresponding District, Taluk and Hobli names
+# Kaveri Data Scraper
+
+## The Data
+[remap.json](remap.json) contains a reverse mapping of Village names to their corresponding District, Taluk and Hobli names.
 
 ## 🤖 Automated Updates
-The data is automatically updated using an automated scraper that runs weekly. See [AUTOMATION.md](AUTOMATION.md) for setup instructions.
+The data is automatically updated using GitHub Actions that runs weekly:
 
-- **Daily checks**: Monitors for data changes
-- **Weekly updates**: Full data refresh every Sunday  
-- **Change detection**: Only updates when actual changes occur
-- **Backup system**: Maintains historical versions
+- **Weekly updates**: Full data refresh every Sunday at 3 AM UTC
+- **Manual triggers**: Run anytime via GitHub Actions
+- **Change detection**: Only creates PR when actual changes occur
+- **Smart summaries**: Clear reporting in GitHub Actions
 
-# why?
-Some documents/information on the [kaveri website](https://kaveri.karnataka.gov.in/) ask you to select your Village from a drop down. This drop down is preceded by a District, a Taluk and a Hobli drop down, each filled based on the previous selections. Finding your Village requires a lot of trial and error to get the right options selected.
+### Setup Automation
+See [AUTOMATION.md](AUTOMATION.md) for complete setup instructions including:
+- GitHub Actions configuration
+- Local development setup
+- Credential management
 
-# the process
-An initial list of Districts is scraped from the website's static data. Using post-login headers, loops are run on each selection and data is collected using the internal APIs (respecting the rate limits). Each District gives a list of Taluks, each Taluk a list of Hoblis and each Hobli a list of Villages. This data is saved, deduplicated and a reverse mapping is created. 
+## Why?
+Some documents/information on the [kaveri website](https://kaveri.karnataka.gov.in/) ask you to select your Village from a dropdown. This dropdown is preceded by District, Taluk and Hobli dropdowns, each filled based on previous selections. Finding your Village requires trial and error to get the right options selected.
+
+## The Process
+1. **Authentication**: Uses browser session credentials via GitHub Secrets
+2. **Data Collection**: Scrapes using internal APIs with rate limiting
+3. **Hierarchy Building**: District → Taluk → Hobli → Village mapping
+4. **Reverse Mapping**: Creates village-to-hierarchy lookup in [remap.json](remap.json)
+5. **Change Detection**: Only creates PR when Karnataka administrative data changes
+6. **Automated PRs**: Creates Pull Requests automatically via GitHub Actions for review
+
+## Files Generated
+- `district_talukas.json` - District to Taluk mapping
+- `taluk_hoblis.json` - Taluk to Hobli mapping  
+- `hobli_villages.json` - Hobli to Village mapping
+- `village_mapping.json` - Complete village data
+- `remap.json` - **Main file**: Village name → full hierarchy lookup
